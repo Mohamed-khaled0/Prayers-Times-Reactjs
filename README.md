@@ -13,8 +13,8 @@ A web application that displays prayer timings for different cities. It allows u
 
 ## Demo
 
-You can try the app at: [Live Demo](https://prayers-times-reactjs.netlify.app/)
-Or watch this video: [Youtube Demo]()
+- You can try the app at: [Live Demo](https://prayers-times-reactjs.netlify.app/)
+- Or watch this video: [Youtube Demo](https://youtu.be/lRSOtLndcMo)
 
 
 ## Technologies Used
