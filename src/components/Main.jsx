@@ -9,6 +9,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { useState, useEffect } from "react";
 import { Grid2 } from "@mui/material";
+import moment from "moment";
+import "moment/dist/locale/ar-dz"
+moment.locale("ar");
+
+
 
 export default function Main() {
   // States
@@ -63,13 +68,6 @@ export default function Main() {
 
   let [today,setToday] = useState('');
 
-  useEffect(() => {
-    fetch(
-      `https://api.aladhan.com/v1/timingsByCity/07-10-2024?country=&city=${selectedCity.apiName}`
-    )
-      .then((resp) => resp.json())
-      .then((data) => setToday(data.data.date.readable));
-  }, [selectedCity]);
 
 
   useEffect(() => {
@@ -78,6 +76,8 @@ export default function Main() {
     )
       .then((resp) => resp.json())
       .then((data) => setTimings(data.data.timings));
+      const t = moment();
+      setToday(t.format('MMM Do YYYY | hh:mm'))
   }, [selectedCity]);
 
   const handleCityChange = (event) => {
