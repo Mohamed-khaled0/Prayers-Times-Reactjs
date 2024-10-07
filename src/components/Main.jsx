@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { Grid2 } from "@mui/material";
 import moment from "moment";
 import "moment/dist/locale/ar-dz";
+import ImgMediaCard from "./Prayer";
 
 moment.locale("ar");
 
@@ -172,15 +173,15 @@ export default function Main() {
 
   return (
     <>
-      <Grid2 container spacing={100}>
-        {/* Adjust the spacing value for desired space */}
-        <Grid2 xs={6}>
+      <Grid2 container spacing={2}>
+        {/* Adjusted spacing for better responsiveness */}
+        <Grid2 item xs={12} sm={6}>
           <div>
             <h2>{today}</h2>
             <h1>{selectedCity.displayName}</h1> {/* Display selected city */}
           </div>
         </Grid2>
-        <Grid2 xs={6}>
+        <Grid2 item xs={12} sm={6}>
           <div>
             <h2>
               متبقي حتى صلاة {prayersArray[nextPrayerIndex].displayName}
@@ -189,61 +190,41 @@ export default function Main() {
           </div>
         </Grid2>
       </Grid2>
-      <Divider style={{ borderColor: "white", opacity: "0.2" }} />
+      <Divider style={{ borderColor: "white", opacity: "0.2", margin: '1em 0' }} />
 
       {/* Prayers Cards */}
       <Stack
-        direction="row"
-        justifyContent={"space-around"}
+        direction={{ xs: 'column', sm: 'row' }}
+        justifyContent="space-around"
+        alignItems="center"
+        spacing={2}
         style={{ marginTop: "50px" }}
       >
-        <Prayer
-          name="الفجر"
-          time={timings.Fajr}
-          img={
-            "https://cdn.pixabay.com/photo/2018/09/28/19/07/islamic-3710002_640.jpg"
-          }
-        />
-        <Prayer
-          name="الشروق"
-          time={timings.Sunrise}
-          img={
-            "https://images.pexels.com/photos/2349168/pexels-photo-2349168.jpeg?auto=compress&cs=tinysrgb&w=400"
-          }
-        />
-        <Prayer
-          name="الظهر"
-          time={timings.Dhuhr}
-          img={
-            "https://images.pexels.com/photos/2087389/pexels-photo-2087389.jpeg?auto=compress&cs=tinysrgb&w=400"
-          }
-        />
-        <Prayer
-          name="العصر"
-          time={timings.Asr}
-          img={
-            "https://cdn.pixabay.com/photo/2024/03/05/19/38/ai-generated-8615178_640.jpg"
-          }
-        />
-        <Prayer
-          name="المغرب"
-          time={timings.Maghrib}
-          img={
-            "https://images.pexels.com/photos/2236674/pexels-photo-2236674.jpeg?auto=compress&cs=tinysrgb&w=400"
-          }
-        />
-        <Prayer
-          name="العشاء"
-          time={timings.Isha}
-          img={
-            "https://images.pexels.com/photos/12598938/pexels-photo-12598938.jpeg?auto=compress&cs=tinysrgb&w=400"
-          }
-        />
+        {prayersArray.map((prayer) => (
+          <ImgMediaCard
+            key={prayer.key}
+            name={prayer.displayName}
+            time={timings[prayer.key]}
+            img={
+              prayer.key === "Fajr"
+                ? "https://cdn.pixabay.com/photo/2018/09/28/19/07/islamic-3710002_640.jpg"
+                : prayer.key === "Sunset"
+                ? "https://images.pexels.com/photos/2236674/pexels-photo-2236674.jpeg?auto=compress&cs=tinysrgb&w=400"
+                : prayer.key === "Dhuhr"
+                ? "https://images.pexels.com/photos/2087389/pexels-photo-2087389.jpeg?auto=compress&cs=tinysrgb&w=400"
+                : prayer.key === "Asr"
+                ? "https://cdn.pixabay.com/photo/2024/03/05/19/38/ai-generated-8615178_640.jpg"
+                : prayer.key === "Isha"
+                ? "https://images.pexels.com/photos/12598938/pexels-photo-12598938.jpeg?auto=compress&cs=tinysrgb&w=400"
+                : ""
+            }
+          />
+        ))}
       </Stack>
 
       {/* Select City Section */}
-      <Stack direction="row" justifyContent={"center"} marginTop={"50px"}>
-        <FormControl style={{ width: "25%" }}>
+      <Stack direction="row" justifyContent="center" marginTop="50px">
+        <FormControl sx={{ width: { xs: '80%', sm: '50%', md: '25%' } }}>
           <InputLabel id="demo-simple-select-label">المدينة</InputLabel>
           <Select
             style={{ color: "white" }}
@@ -251,6 +232,7 @@ export default function Main() {
             id="demo-simple-select"
             value={selectedCity.apiName}
             onChange={handleCityChange}
+            label="المدينة"
           >
             {availableCities.map((city) => (
               <MenuItem key={city.apiName} value={city.apiName}>
